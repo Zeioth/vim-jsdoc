@@ -1,0 +1,316 @@
+*jsdoc.txt*  Automatic jsdoc management for VIM
+
+______/\\\\\\\\\\\_______________/\\\\\\\\\\\\________________________________
+ _____\/////\\\///_______________\/\\\////////\\\______________________________
+  _________\/\\\__________________\/\\\______\//\\\_____________________________
+   _________\/\\\______/\\\\\\\\\\_\/\\\_______\/\\\_____/\\\\\________/\\\\\\\\_
+    _________\/\\\_____\/\\\//////__\/\\\_______\/\\\___/\\\///\\\____/\\\//////__
+     _________\/\\\_____\/\\\\\\\\\\_\/\\\_______\/\\\__/\\\__\//\\\__/\\\_________
+      __/\\\___\/\\\_____\////////\\\_\/\\\_______/\\\__\//\\\__/\\\__\//\\\________
+       _\//\\\\\\\\\_______/\\\\\\\\\\_\/\\\\\\\\\\\\/____\///\\\\\/____\///\\\\\\\\_
+        __\/////////_______\//////////__\////////////________\/////________\////////__
+
+
+                jsdoc REFERENCE MANUAL
+                    by Adrian Lopez
+
+                                                *jsdoc*
+
+1. Introduction             |jsdoc-intro|
+2. Commands                 |jsdoc-commands|
+3. Global Settings          |jsdoc-settings|
+4. Project Settings         |jsdoc-project-settings|
+
+=============================================================================
+1. Introduction                                 *jsdoc-intro*
+
+vim-jsdoc is a plugin that takes care of the management of jsdoc
+documentation in Vim. It will (re)generate jsdoc documentation as you work
+while staying completely out of your way.
+
+In order to generate documentation, jsdoc will have to figure out what's in
+your project. To do this, it will locate well-known project root markers like
+SCM folders (.git, .hg, etc.), any custom markers you define (with
+|jsdoc_project_root|).
+
+
+=============================================================================
+2. Commands                                     *jsdoc-commands*
+
+                                                *jsdoc-project-commands*
+The following commands are only available in buffers that have been found to
+belong to a project that should be managed by jsdoc. See
+|jsdoc_project_root| for how jsdoc figures out the project a file
+belongs to. When no project is found (i.e. the file is not under any of the
+known project markers), jsdoc is disabled for that buffer, and the
+following commands and remarks don't apply.
+
+If you want to force-disable jsdoc for a given project even though it does
+match one of the items in |jsdoc_project_root|, create a file named
+"`.nojsdoc`" at the root of the project.
+
+                                                *:jsdocRegen*
+:jsdocRegen
+                        Manually (re)generate the jsdoc documentation.
+                        This can be useful when |jsdoc_auto_regen| is set to
+                        0.
+
+
+
+Some debugging/troubleshooting commands are also available if the
+|jsdoc_define_advanced_commands| global setting is set to 1.
+
+:jsdocOpen
+                        Opens the documentation file on the browser. Both the
+                        file and the browser can be customized with
+                        |jsdoc_browser_file| and |jsdoc_browser_cmd|.
+
+
+
+
+Some debugging/troubleshooting commands are also available if the
+|jsdoc_define_advanced_commands| global setting is set to 1.
+
+
+                                                *:jsdocToggleEnabled*
+:jsdocToggleEnabled
+                        Disables and re-enables jsdoc.
+                        When jsdoc is disabled, it won't (re)generate
+                        jsdoc when you save a buffer. It will however still
+                        look for project markers as you open new buffers so
+                        that they can start working again when you re-enable
+                        jsdoc.
+
+                        {only available when
+                        |jsdoc_define_advanced_commands| is set}
+
+                                                *jsdocToggleTrace*
+:jsdocToggleTrace
+                        If you want to keep an eye on what jsdoc is doing,
+                        you can enable tracing. This will show messages every
+                        time jsdoc does something. It can get annoying
+                        quickly, since it will require you to press a key to
+                        dismiss those messages, but it can be useful to
+                        troubleshoot a problem.
+
+                        {only available when
+                        |jsdoc_define_advanced_commands| is set}
+
+
+=============================================================================
+3. Global Settings                              *jsdoc-settings*
+
+The following settings can be defined in your |vimrc| to change the default
+behaviour of jsdoc.
+
+                                                *jsdoc_enabled*
+g:jsdoc_enabled
+                        Defines whether jsdoc should be enabled. When
+                        disabled, jsdoc will still scan for project root
+                        markers when opening buffers. This is so that when you
+                        re-enable jsdoc, you won't have some buffers
+                        mysteriously working while others (those open last)
+                        don't.
+
+                        Defaults to `1`.
+
+                                                *jsdoc_trace*
+g:jsdoc_trace
+                        When true, jsdoc will spit out debugging
+                        information as Vim messages (which you can later read
+                        with |:messages|).
+
+                        Defaults to `0`.
+
+                                                *jsdoc_project_root*
+g:jsdoc_project_root
+                        When a buffer is loaded, jsdoc will figure out if
+                        it's part of a project that should have jsdoc managed
+                        automatically. To do this, it looks for "root markers"
+                        in the current file's directory and its parent
+                        directories. If it finds any of those markers,
+                        jsdoc will be enabled for the project. This is
+                        important because by default, this plugin will use the
+                        project's root directory to run jsdoc.
+
+                        The default markers are:
+                        `['.git', '.hg', '.svn', '.bzr', '_darcs', '_darcs', '_FOSSIL_', '.fslckout']`
+
+                                                *jsdoc_include_filetypes*
+g:jsdoc_include_filetypes
+                        A |List| of file types (see |'filetype'|) that jsdoc
+                        should use. When a buffer is opened, if its
+                        'filetype' is found in this list, jsdoc features
+                        will be available for this buffer.
+
+                        Defaults to jsdoc officially supported languages:
+                        (`['rust']`).
+
+
+
+                                                *jsdoc_exclude_project_root*
+g:jsdoc_exclude_project_root
+                        A list of project roots to generally ignore. If a file
+                        is opened inside one of those projects, jsdoc
+                        won't be activated. This is similar to placing
+                        a `.nojsdoc` file in the root of those projects, but
+                        can be useful when you don't want to, or can't, place
+                        such a file there.
+                        Defaults to `['/usr/local', '/opt/homebrew', '/home/linuxbrew/.linuxbrew']`,
+                        which are the folders where Homebrew is known to
+                        create a Git repository by default.
+
+                                                *jsdoc_project_root_finder*
+g:jsdoc_project_root_finder
+                        When a buffer is loaded, jsdoc uses a default
+                        (internal) implementation to find that file's
+                        project's root directory, using settings like
+                        |g:jsdoc_project_root|. When you specify
+                        |g:jsdoc_project_root_finder|, you can tell
+                        jsdoc to use a custom implementation, such as
+                        `vim-projectroot`. The value of this setting must be
+                        the name of a function that takes a single string
+                        argument (the path to the current buffer's file) and
+                        returns a string value (the project's root directory).
+                        Defaults to `''`.
+                        Note: when set, the called implementation will
+                        possibly ignore |g:jsdoc_project_root|.
+                        Note: an implementation can fallback to the default
+                        behaviour by calling
+                        `jsdoc#default_get_project_root`.
+
+                                                *jsdoc_generate_on_new*
+g:jsdoc_generate_on_new
+                        If set to 1, jsdoc will start generating the docs
+                        when a new project is open. A new project is
+                        considered open when a buffer is created for a file
+                        that has not been "seen" yet
+                        in the current Vim session -- which pretty much means
+                        when you open the first file in a given source control
+                        repository.
+                        When set to 0, jsdoc won't do anything special.
+
+                        Defaults to 1.
+
+                                                *jsdoc_generate_on_write*
+g:jsdoc_generate_on_write
+                        If set to 1, jsdoc will (re)generate jsdoc
+                        documentation when a file inside that project is
+                        saved. See |jsdoc_project_root| for how jsdoc
+                        locates the project.
+                        When set to 0, jsdoc won't do anything on save.
+                        This means that the docs won't reflect
+                        the latest changes, and you will have to run
+                        |jsdocUpdate| manually.
+                        Defaults to 1.
+
+                                            *jsdoc_generate_on_empty_buffer*
+g:jsdoc_generate_on_empty_buffer
+                        If set to 1, jsdoc will start generating the jsdoc
+                        documentation even if there's no buffer currently open,
+                        as long as the current working directory (as returned by
+                        |:cd|) is inside a known project.
+                        This is useful if you want jsdoc to generate the
+                        docs right after opening Vim.
+
+                        Defaults to 0.
+
+                                            *jsdoc_resolve_symlinks*
+g:jsdoc_resolve_symlinks
+                        When set to 1, jsdoc will resolve any symlinks in
+                        the current buffer's path in order to find the project
+                        it belongs to. This is what you want if you're editing
+                        a symlink located outside of the project, and it
+                        points to a file inside the project. However, this is
+                        maybe not what you want if the symlink itself is
+                        part of the project.
+                        Defaults to 0.
+
+                                            *jsdoc_init_user_func*
+g:jsdoc_init_user_func
+                        When set to a non-empty string, it is expected to be
+                        the name of a function that will be called when a file
+                        is opened in a project. The function gets passed the
+                        path of the file and if it returns 0, jsdoc won't
+                        be enabled for that file.
+
+                        You can use this to manually set buffer-local
+                        settings:
+
+                        Defaults to "".
+
+                                            *jsdoc_define_advanced_commands*
+g:jsdoc_define_advanced_commands
+                        Defines some advanced commands like
+                        |jsdocToggleEnabled|.
+
+
+                                            *jsdoc_auto_regen*
+g:jsdoc_auto_regen
+                        When setted to 1, jsdoc will automatically generate
+                        the documentation for you.
+
+                        If you prefer to generate the docs manually, you can
+                        use the command |jsdocRegen|. In this case you might want
+                        to set this this global to 0.
+
+                        Defaults to 1.
+
+                                            *jsdoc_cmd*
+g:jsdoc_cmd
+                        This is the command that jsdoc uses to generate the
+                        project documentation.
+
+                        Please, take the default value of this global as reference.
+
+                        Defaults to "jsdoc".
+
+
+                                            *jsdoc_browser_cmd*
+g:jsdoc_browser_cmd
+                        It is the program that will be used to open
+                        |jsdoc_browser_file|.
+
+                        This can be your internet browser, or anything else,
+                        really.
+
+                        Defaults to "xdg-open".
+
+                                            *jsdoc_browser_file*
+g:jsdoc_browser_file
+                        The file that will be opened by the command
+                        |jsdocOpen|.
+
+                        Defaults to "./docs/index.html".
+
+                                            *jsdoc_verbose_manual_regen*
+g:jsdoc_verbose_manual_regen
+                        Display a message on the status bar when jsdoc is
+                        manually regenerated using the command :|jsdocRegen|.
+                        Normally, used through a keybinding.
+
+                        Defaults to "1".
+
+
+                                            *jsdoc_verbose_open*
+g:jsdoc_verbose_open
+                        Display a message on the status bar when the jsdoc
+                        documentation is opened on the browser using the
+                        command :|jsdocOpen|. Normally, used
+                        through a keybinding.
+
+                        Defaults to "1".
+
+
+=============================================================================
+4. Project Settings                             *jsdoc-project-settings*
+
+jsdoc can be customized to some extent on a per-project basis with the
+following files present in the project root directory:
+
+                                                *jsdoc-.nojsdoc*
+`.nojsdoc`: if this file exists, jsdoc will be disabled completely for that
+project.
+
+
+ vim:tw=78:et:ft=help:norl:
