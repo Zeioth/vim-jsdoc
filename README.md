@@ -38,7 +38,7 @@ Copy this in your vimconfig:
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Enable it for the next languages
-let g:jsdoc_include_filetypes = ['typescript']
+let g:jsdoc_include_filetypes = ['javascript']
 
 " Enable the keybindings for the languages in g:jsdoc_include_filetypes
 augroup jsdoc_mappings
