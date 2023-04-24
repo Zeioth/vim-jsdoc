@@ -98,8 +98,8 @@ augroup end
 " Misc Commands {{{
 
 if g:jsdoc_define_advanced_commands
-    command! jsdocToggleEnabled :let g:jsdoc_enabled=!g:jsdoc_enabled
-    command! jsdocToggleTrace   :call jsdoc#toggletrace()
+    command! JsdocToggleEnabled :let g:jsdoc_enabled=!g:jsdoc_enabled
+    command! JsdocToggleTrace   :call jsdoc#toggletrace()
 endif
 
 " }}}

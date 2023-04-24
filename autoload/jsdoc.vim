@@ -217,8 +217,8 @@ function! jsdoc#setup_jsdoc() abort
     execute 'augroup end'
 
     " Miscellaneous commands.
-    command! -buffer -bang jsdocRegen :call s:manual_jsdoc_regen(<bang>0)
-    command! -buffer -bang jsdocOpen :call s:jsdoc_open()
+    command! -buffer -bang JsdocRegen :call s:manual_jsdoc_regen(<bang>0)
+    command! -buffer -bang JsdocOpen :call s:jsdoc_open()
 
     " Keybindings
     "nmap <silent> <C-k> :<C-u>jsdocRegen<CR>

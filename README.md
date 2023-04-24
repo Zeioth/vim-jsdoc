@@ -3,25 +3,62 @@ Out of the box, this plugin automatically regenerates your jsdoc
 documentation. Currently, this plugin is in highly experimental state.
 
 ## Dependencies
-None. Rust ships with this tool.
+```sh
+# For this to work, you must install typedoc like
+sudo npm -g jsdoc
+```
+
+You also need to have a 'jsdoc.json' file like this in your project root
+directory.
+```json
+{
+	"source": {
+		"include": ["./src"],
+		"includePattern": ".+\\.js(doc|x)?$",
+		"exclude": "node_modules/|docs"
+	},
+	"plugins": [],
+	"opts": {
+		"destination": "docs/"
+	}
+}
+```
+To see all possiple options, check the
+[JsDoc official documentation](https://jsdoc.app/about-configuring-jsdoc.html).
 
 ## Documentation
 Please use <:h jsdoc> on vim to read the [full documentation](https://github.com/Zeioth/vim-jsdoc/blob/main/doc/jsdoc.txt).
 
 ## How to use
-
-You just need to define the next keybindings (you MUST setup this)
+Copy this in your vimconfig:
 
 ```
-" Shortcuts to open and generate docs
-nmap <silent> <C-k> :<C-u>jsdocRegen<CR>
-nmap <silent> <C-h> :<C-u>jsdocOpen<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim jsdoc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Enable it for the next languages
+let g:jsdoc_include_filetypes = ['typescript']
+
+" Enable the keybindings for the languages in g:jsdoc_include_filetypes
+augroup jsdoc_mappings
+  for ft in g:jsdoc_include_filetypes
+    execute 'autocmd FileType ' . ft . ' nnoremap <buffer> <C-h> :<C-u>jsdocOpen<CR>'
+    "execute 'autocmd FileType ' . ft . ' nnoremap <buffer> <C-k> :<C-u>jsdocRegen<CR>'
+  endfor
+augroup END
 ```
+
+## Most frecuent options users customize
 
 Enable automated doc generation on save (optional)
 ```
+" Enabled by default for the languages defined in g:jsdoc_include_filetypes
 let g:jsdoc_auto_regen = 1
+```
 
+Change the way the documentation is opened (optional)
+```
 " jsdoc - Open on browser
 let g:jsdoc_browser_cmd = get(g:, 'jsdoc_browser_cmd', 'xdg-open')
 let g:jsdoc_browser_file = get(g:, 'jsdoc_browser_file', './docs/index.html')
@@ -30,7 +67,7 @@ let g:jsdoc_browser_file = get(g:, 'jsdoc_browser_file', './docs/index.html')
 Custom command to generate the jsdoc documentation (optional)
 
 ```
-let g:jsdoc_cmd = get(g:, 'jsdoc_cmd', 'jsdoc')
+let g:jsdoc_cmd = 'jsdoc'
 ```
 
 Change the way the root of the project is detected (optional)
