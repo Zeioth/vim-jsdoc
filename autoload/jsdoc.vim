@@ -194,9 +194,6 @@ function! jsdoc#setup_jsdoc() abort
         endif
 
         let b:jsdoc_files = {}
-        " for module in g:jsdoc_modules
-        "     call call("jsdoc#".module."#init", [b:jsdoc_root])
-        " endfor
     catch /^jsdoc\:/
         call jsdoc#trace("No jsdoc support for this buffer.")
         return
