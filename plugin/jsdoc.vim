@@ -70,7 +70,7 @@ let g:jsdoc_cmd = get(g:, 'jsdoc_cmd', 'jsdoc ')
 
 " jsdoc - Open on browser
 let g:jsdoc_browser_cmd = get(g:, 'jsdoc_browser_cmd', 'xdg-open')
-let g:jsdoc_browser_file = get(g:, 'jsdoc_browser_file', './docs/index.html')
+let g:jsdoc_browser_file = get(g:, 'jsdoc_browser_file', '/docs/index.html')
 
 " jsdoc - Verbose
 let g:jsdoc_verbose_manual_regen = get(g:, 'jsdoc_verbose_open', '1')
