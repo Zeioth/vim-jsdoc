@@ -162,7 +162,7 @@ function! jsdoc#setup_jsdoc() abort
     endif
 
     " We only want to use vim-jsdoc in the filetypes supported by jsdoc
-    if !index(g:doxygen_include_filetypes, &filetype) >= 0
+    if index(g:jsdoc_include_filetypes, &filetype) == -1
         return
     endif
 
