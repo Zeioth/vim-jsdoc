@@ -220,12 +220,6 @@ function! jsdoc#setup_jsdoc() abort
     command! -buffer -bang JsdocRegen :call s:manual_jsdoc_regen(<bang>0)
     command! -buffer -bang JsdocOpen :call s:jsdoc_open()
 
-    " Keybindings
-    "nmap <silent> <C-k> :<C-u>jsdocRegen<CR>
-    "nmap <silent> <C-h> :<C-u>jsdocOpen<CR>
-    nmap <silent> g:jsdoc_shortcut_regen . :<C-u>jsdocRegen<CR>
-    nmap <silent> g:jsdoc_shortcut_open . :<C-u>jsdocOpen<CR>
-
 endfunction
 
 " }}}
