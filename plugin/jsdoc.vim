@@ -45,7 +45,7 @@ let g:jsdoc_project_root_finder = get(g:, 'jsdoc_project_root_finder', '')
 let g:jsdoc_exclude_project_root = get(g:, 'jsdoc_exclude_project_root', 
             \['/usr/local', '/opt/homebrew', '/home/linuxbrew/.linuxbrew'])
 
-let g:jsdoc_include_filetypes = get(g:, 'jsdoc_include_filetypes', ['rust'])
+let g:jsdoc_include_filetypes = get(g:, 'jsdoc_include_filetypes', ['javascript'])
 let g:jsdoc_resolve_symlinks = get(g:, 'jsdoc_resolve_symlinks', 0)
 let g:jsdoc_generate_on_new = get(g:, 'jsdoc_generate_on_new', 1)
 let g:jsdoc_generate_on_write = get(g:, 'jsdoc_generate_on_write', 1)
